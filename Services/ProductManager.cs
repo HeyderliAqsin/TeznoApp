@@ -31,6 +31,7 @@ namespace Services
             return _context.Products.Include(x => x.Category).Where(x => !x.IsDeleted)
                 .OrderByDescending(x=>x.PublishDate).Take(count).ToList();
         }
+
         public List<Product> WeekProducts(int count)
         {
             return _context.Products.Include(x => x.Category).Where(x => !x.IsWeek)
@@ -46,6 +47,11 @@ namespace Services
             var selectedProduct = _context.Products.Include(x => x.Category)
                 .Where(x => !x.IsDeleted).FirstOrDefault(x => x.ID == id);
            return selectedProduct ;
+        }
+        public List<Product?> GetByIds(IEnumerable<int> ids)
+        {
+            var selectedProduct = _context.Products.Where(pr => ids.Contains(pr.ID)).ToList();
+            return selectedProduct;
         }
         public List<Product>? GetSliders()
         {
